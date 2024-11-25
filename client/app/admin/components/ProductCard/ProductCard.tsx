@@ -1,14 +1,21 @@
-import { Flex, Popover, Text } from "@mantine/core";
+import { Flex, Divider, Popover, Text } from "@mantine/core";
 import { Product } from "../../../types/product";
 import { useHover } from "@mantine/hooks";
 import Image from "next/image";
+import styles from "./ProductCard.styles";
 
 interface ProductComponentProps {
   product: Product;
+  onClick: () => void;
 }
 
-const ProductCard: React.FC<ProductComponentProps> = ({ product }) => {
+const ProductCard: React.FC<ProductComponentProps> = ({ product, onClick }) => {
   const { hovered, ref } = useHover();
+
+  const price = parseFloat(product.price);
+  const discount = parseFloat(product.discount);
+  const discountedPrice = price - (price * discount) / 100;
+
   return (
     <Flex
       ref={ref}
@@ -23,7 +30,7 @@ const ProductCard: React.FC<ProductComponentProps> = ({ product }) => {
       p={"12px"}
       gap={"32px"}
       bg={hovered ? "gray.0" : "white"}
-      onClick={() => console.log(product)}
+      onClick={onClick}
     >
       <Image
         width={100}
@@ -39,17 +46,44 @@ const ProductCard: React.FC<ProductComponentProps> = ({ product }) => {
         </Text>
         <Text>{product.name}</Text>
       </Flex>
+      <Flex h={"70%"}>
+        <Divider color={"blue.1"} orientation={"vertical"} />
+      </Flex>
       <Flex flex={1} direction={"column"} gap="12px" h={"80%"}>
         <Text c="blue.5" size="xl">
           Opis
         </Text>
         <Text>{product.description}</Text>
       </Flex>
+      <Flex h={"70%"}>
+        <Divider color={"blue.1"} orientation={"vertical"} />
+      </Flex>
       <Flex flex={1} direction={"column"} h={"80%"} gap="12px">
         <Text c="blue.5" size="xl">
           Cena
         </Text>
-        <Text>{product.price}</Text>
+        <Flex>
+          {discount > 0 ? (
+            <Flex direction={"column"}>
+              <Text style={styles.originalPrice}>
+                {price.toFixed(2)} <span>&#8364;</span>
+              </Text>
+              <Flex>
+                <Text style={styles.discountedPrice}>
+                  {discountedPrice.toFixed(2)} <span>&#8364;</span>
+                </Text>
+                <Text style={styles.discountLabel}>-{discount}%</Text>
+              </Flex>
+            </Flex>
+          ) : (
+            <Text style={styles.price}>
+              {price.toFixed(2)} <span>&#8364;</span>
+            </Text>
+          )}
+        </Flex>
+      </Flex>
+      <Flex h={"70%"}>
+        <Divider color={"blue.1"} orientation={"vertical"} />
       </Flex>
       <Flex flex={1} h={"80%"} direction={"column"} gap={"12px"}>
         <Text c="blue.5" size="xl">
@@ -86,9 +120,12 @@ const ProductCard: React.FC<ProductComponentProps> = ({ product }) => {
                   </Text>
                 </Popover.Dropdown>
               </Popover>
-            ) : null
+            ) : null,
           )}
         </Flex>
+      </Flex>
+      <Flex h={"70%"}>
+        <Divider color={"blue.1"} orientation={"vertical"} />
       </Flex>
       <Flex flex={1} direction={"column"} h={"80%"} gap="12px">
         <Text c="blue.5" size="xl">
