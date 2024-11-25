@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import useProducts from "@/app/hooks/useProducts";
-import { ProductSize, Category } from "@/app/types/product";
+import { ProductSize, Category, Product } from "@/app/types/product";
 import {
   Button,
   FileButton,
@@ -17,23 +17,27 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaDollarSign, FaPercentage, FaPlus } from "react-icons/fa";
 import Image from "next/image";
 
-interface CreateProductModalProps {
+interface EditProductModalProps {
   opened: boolean;
   close: () => void;
   refetchProducts: () => void;
+  product: Product;
 }
 
-const CreateProductModal: React.FC<CreateProductModalProps> = ({
+const EditProductModal: React.FC<EditProductModalProps> = ({
   opened,
   close,
   refetchProducts,
+  product,
 }) => {
-  const [coverImage, setCoverImage] = useState("");
-  const [images, setImages] = useState([]);
+  const [coverImage, setCoverImage] = useState(product.cover_image);
+  const [images, setImages] = useState(product.images);
+
+  console.log(images);
 
   const {
     sizes,
@@ -42,9 +46,9 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
     categories,
     refetchCategories,
     loadingCategories,
-    createProduct,
     addCategory,
     addSize,
+    updateProduct,
   } = useProducts();
 
   const [selectedSizes, setSelectedSizes] = useState([]);
@@ -54,15 +58,30 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
   const [sizeToAdd, setSizeToAdd] = useState("");
 
   const [createProductForm, setCreateProductForm] = useState({
-    name: "",
+    name: product.name,
     categories: [],
-    description: "",
-    price: "",
-    discount: "0",
+    description: product.description,
+    price: product.price,
+    discount: product?.discount,
     sizeAndQuantity: {},
-    cover_image: "",
-    images: [] as string[],
+    cover_image: product.cover_image,
+    images: product.images,
   });
+
+  useEffect(() => {
+    setImages(product.images);
+    setCoverImage(product.cover_image);
+    setCreateProductForm({
+      name: product.name,
+      categories: [],
+      description: product.description,
+      price: product.price,
+      discount: product?.discount,
+      sizeAndQuantity: {},
+      cover_image: product.cover_image,
+      images: product.images,
+    });
+  }, [product]);
 
   const handleSizeSelect = (selected: any) => {
     setSelectedSizes(selected);
@@ -130,23 +149,14 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
     }));
   };
 
-  const handleCreateProduct = async () => {
+  const handleUpdateProduct = async () => {
     try {
-      await createProduct.mutateAsync(createProductForm);
-      setCoverImage("");
-      setImages([]);
+      await updateProduct.mutateAsync({
+        id: product.id as number,
+        ...createProductForm,
+      });
       setSizeQuantities({});
       setSelectedSizes([]);
-      setCreateProductForm({
-        name: "",
-        categories: [],
-        description: "",
-        price: "",
-        discount: "0",
-        sizeAndQuantity: {},
-        cover_image: "",
-        images: [] as string[],
-      });
       close();
       refetchProducts();
     } catch (error) {
@@ -194,21 +204,8 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
     <Modal
       opened={opened}
       onClose={() => {
-        setCoverImage("");
-        setImages([]);
         setSizeQuantities({});
         setSelectedSizes([]);
-        setCreateProductForm({
-          name: "",
-          categories: [],
-          description: "",
-          price: "",
-          discount: "0",
-          sizeAndQuantity: {},
-          cover_image: "",
-          images: [] as string[],
-        });
-
         close();
       }}
       closeOnClickOutside={false}
@@ -371,9 +368,9 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
                       rightSection={<FaPercentage />}
                       hideControls
                       placeholder="0"
+                      radius={"10px"}
                       min={0}
                       max={99}
-                      radius={"10px"}
                       w={"100%"}
                       value={parseInt(createProductForm.discount)}
                       onChange={(value) =>
@@ -500,7 +497,7 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
                 <Flex mt={"12px"}>
                   <Image
                     alt={"Cover image"}
-                    src={`/assets/tempProducts/${coverImage}`}
+                    src={`/assets/tempProducts/${createProductForm.cover_image}`}
                     height={"125"}
                     width={"100"}
                     style={{
@@ -527,7 +524,7 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
               </Flex>
               {images && (
                 <Flex gap={"12px"} mt={"12px"}>
-                  {images.map((image: any) => {
+                  {createProductForm.images.map((image) => {
                     return (
                       <Image
                         key={image}
@@ -547,8 +544,8 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
           </Flex>
         </Flex>
         <Flex mt={"24px"}>
-          <Button onClick={handleCreateProduct} color="blue.5">
-            Dodaj proizvod
+          <Button onClick={handleUpdateProduct} color="blue.5">
+            Izmeni proizvod
           </Button>
         </Flex>
       </Flex>
@@ -556,4 +553,4 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
   );
 };
 
-export default CreateProductModal;
+export default EditProductModal;

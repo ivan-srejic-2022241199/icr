@@ -22,101 +22,13 @@ enum OrderStatus {
 
 enum Product_Sizes {
   XS
-  S 
-  M 
+  S
+  M
   L
-  XL 
+  XL
   XXL
 }
 
-// model User {
-//   id           Int       @id @default(autoincrement())
-//   first_name   String
-//   last_name    String
-//   email        String    @unique
-//   password     String?
-//   role         UserRole
-//   phone_number String
-//   city         String
-//   postal_code  Int
-//   address      String
-//   wishlist     Wishlist? 
-//   orders       Orders[]  
-//   created_at   DateTime  @default(now())
-//   updated_at   DateTime  @updatedAt
-// }
-
-// model Wishlist {
-//   id         Int     @id @default(autoincrement())
-//   user       User    @relation(fields: [user_id], references: [id])
-//   user_id    Int     @unique  
-//   products   Product[] @relation("WishlistProducts") 
-//   created_at DateTime @default(now())
-//   updated_at DateTime @updatedAt
-// }
-
-// model Product {
-//   id          Int             @id @default(autoincrement())
-//   name        String
-//   description String
-//   price       Decimal
-//   discount    Decimal
-//   cover_image String
-//   images      String[]
-//   wishlist    Wishlist[]      @relation("WishlistProducts") 
-//   categories  Category[]   @relation("ProductCategories")
-//   OrderItem OrderItem[]
-//   created_at  DateTime        @default(now())
-//   updated_at  DateTime        @updatedAt
-//   ProductSizeRelation ProductSizeRelation[]
-// }
-
-// model Category {
-//   id Int @id @default(autoincrement())
-//   name String
-//   description String
-//   products    Product[]    @relation("ProductCategories") 
-//   created_at DateTime @default(now())
-//   updated_at DateTime @updatedAt
-  
-// }
-
-// model ProductSizes {
-//   id    Int     @id @default(autoincrement())
-//   size  Product_Sizes
-//   productSizes ProductSizeRelation[]
-//   OrderItem OrderItem[]
-// }
-
-// model ProductSizeRelation {
-//   id          Int         @id @default(autoincrement())
-//   product     Product     @relation(fields: [productId], references: [id])
-//   productId   Int
-//   productSize ProductSizes @relation(fields: [productSizeId], references: [id])
-//   productSizeId Int
-//   quantity    Int
-// }
-
-// model OrderItem {
-//   id         Int     @id @default(autoincrement())
-//   order      Orders   @relation(fields: [order_id], references: [id])
-//   order_id   Int
-//   product    Product @relation(fields: [product_id], references: [id])
-//   product_id Int
-//   size       ProductSizes @relation(fields: [size_id], references: [id])
-//   size_id    Int 
-//   quantity   Int  
-// }
-
-// model Orders {
-//   id         Int         @id @default(autoincrement())
-//   user       User        @relation(fields: [user_id], references: [id])
-//   user_id    Int
-//   orderItems OrderItem[]
-//   order_status OrderStatus
-//   created_at DateTime     @default(now())
-//   updated_at DateTime     @updatedAt
-// }
 model User {
   id           Int       @id @default(autoincrement())
   first_name   String
@@ -128,51 +40,51 @@ model User {
   city         String
   postal_code  Int
   address      String
-  wishlist     Wishlist? 
-  orders       Orders[]  
+  wishlist     Wishlist?
+  orders       Orders[]
   created_at   DateTime  @default(now())
   updated_at   DateTime  @updatedAt
 }
 
 model Wishlist {
-  id         Int     @id @default(autoincrement())
-  user       User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id    Int     @unique  
-  products   Product[] @relation("WishlistProducts") 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id         Int       @id @default(autoincrement())
+  user       User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id    Int       @unique
+  products   Product[] @relation("WishlistProducts")
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
 }
 
 model Product {
-  id                  Int                    @id @default(autoincrement())
+  id                  Int                   @id @default(autoincrement())
   name                String
   description         String
   price               Decimal
   discount            Decimal
   cover_image         String
   images              String[]
-  wishlist            Wishlist[]             @relation("WishlistProducts") 
-  categories          Category[]             @relation("ProductCategories")
+  wishlist            Wishlist[]            @relation("WishlistProducts")
+  categories          Category[]            @relation("ProductCategories")
   OrderItem           OrderItem[]
-  ProductSizeRelation ProductSizeRelation[]  // No need for `onDelete` here
-  created_at          DateTime               @default(now())
-  updated_at          DateTime               @updatedAt
+  ProductSizeRelation ProductSizeRelation[] // No need for `onDelete` here
+  created_at          DateTime              @default(now())
+  updated_at          DateTime              @updatedAt
 }
 
 model Category {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
   description String
-  products    Product[] @relation("ProductCategories") 
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+  products    Product[] @relation("ProductCategories")
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
 }
 
 model ProductSizes {
-  id          Int                 @id @default(autoincrement())
-  size        Product_Sizes
-  productSizes ProductSizeRelation[] 
-  OrderItem   OrderItem[]
+  id           Int                   @id @default(autoincrement())
+  size         Product_Sizes
+  productSizes ProductSizeRelation[]
+  OrderItem    OrderItem[]
 }
 
 model ProductSizeRelation {
@@ -185,22 +97,26 @@ model ProductSizeRelation {
 }
 
 model OrderItem {
-  id         Int           @id @default(autoincrement())
-  order      Orders        @relation(fields: [order_id], references: [id], onDelete: Cascade)
-  order_id   Int
-  product    Product       @relation(fields: [product_id], references: [id], onDelete: Cascade)
-  product_id Int
-  size       ProductSizes  @relation(fields: [size_id], references: [id], onDelete: Cascade)
-  size_id    Int 
-  quantity   Int  
+  id                  Int          @id @default(autoincrement())
+  order               Orders       @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  order_id            Int
+  product             Product      @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  product_id          Int
+  product_name        String
+  product_price       Decimal
+  product_discount    Decimal
+  product_cover_image String
+  size                ProductSizes @relation(fields: [size_id], references: [id], onDelete: Cascade)
+  size_id             Int
+  quantity            Int
 }
 
 model Orders {
-  id          Int         @id @default(autoincrement())
-  user        User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id     Int
-  orderItems  OrderItem[]
+  id           Int         @id @default(autoincrement())
+  user         User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id      Int
+  orderItems   OrderItem[]
   order_status OrderStatus
-  created_at  DateTime    @default(now())
-  updated_at  DateTime    @updatedAt
+  created_at   DateTime    @default(now())
+  updated_at   DateTime    @updatedAt
 }

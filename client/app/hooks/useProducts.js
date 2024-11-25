@@ -27,7 +27,7 @@ const useProducts = () => {
       },
       {
         withCredentials: true,
-      }
+      },
     );
     return data;
   };
@@ -52,7 +52,7 @@ const useProducts = () => {
       },
       {
         withCredentials: true,
-      }
+      },
     );
     return data;
   };
@@ -96,7 +96,7 @@ const useProducts = () => {
       },
       {
         withCredentials: true,
-      }
+      },
     );
     return data;
   };
@@ -123,6 +123,42 @@ const useProducts = () => {
     queryFn: getCategories,
   });
 
+  const updateProductCallback = async ({
+    id,
+    name,
+    description,
+    price,
+    discount,
+    cover_image,
+    images,
+    sizeAndQuantity,
+    categories,
+  }) => {
+    const { data } = await axios.put(
+      `http://localhost:3001/admin/update-product/${id}`,
+      {
+        name,
+        description,
+        price,
+        discount,
+        cover_image,
+        images,
+        sizeAndQuantity,
+        categories,
+      },
+      {
+        withCredentials: true,
+      },
+    );
+    return data;
+  };
+
+  const updateProduct = useMutation({
+    mutationFn: updateProductCallback,
+    onError: (error) => {
+      return error.response?.data || "An unknown error occured";
+    },
+  });
   return {
     sizes,
     loadingSizes,
@@ -138,6 +174,7 @@ const useProducts = () => {
     createProduct,
     addCategory,
     addSize,
+    updateProduct,
   };
 };
 

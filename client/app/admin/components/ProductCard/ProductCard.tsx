@@ -1,14 +1,16 @@
-import { Flex, Divider, Popover, Text } from "@mantine/core";
+import { Flex, Divider, Popover, Text, Button, Box } from "@mantine/core";
 import { Product } from "../../../types/product";
 import { useHover } from "@mantine/hooks";
 import Image from "next/image";
 import styles from "./ProductCard.styles";
+import { FaEdit } from "react-icons/fa";
 
 interface ProductComponentProps {
   product: Product;
+  onClick?: () => void;
 }
 
-const ProductCard: React.FC<ProductComponentProps> = ({ product }) => {
+const ProductCard: React.FC<ProductComponentProps> = ({ product, onClick }) => {
   const { hovered, ref } = useHover();
 
   const price = parseFloat(product.price);
@@ -29,7 +31,6 @@ const ProductCard: React.FC<ProductComponentProps> = ({ product }) => {
       p={"12px"}
       gap={"32px"}
       bg={hovered ? "gray.0" : "white"}
-      onClick={() => alert("Lele")}
     >
       <Image
         width={100}
@@ -136,6 +137,9 @@ const ProductCard: React.FC<ProductComponentProps> = ({ product }) => {
           ))}
         </Flex>
       </Flex>
+      <Button onClick={onClick}>
+        <FaEdit />
+      </Button>
     </Flex>
   );
 };

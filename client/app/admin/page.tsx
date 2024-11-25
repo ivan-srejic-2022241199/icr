@@ -11,10 +11,12 @@ import { HiOutlineXMark } from "react-icons/hi2";
 import FilterModal from "./components/FilterModal/FilterModal";
 import useProducts from "../hooks/useProducts";
 import CreateProductModal from "./components/CreateProductModal/CreateProductModal";
+import EditProductModal from "@/app/admin/components/EditProductModal/EditProductModal";
 
 const AdminPage = () => {
   const { products, loadingProducts, refetchProducts } = useProducts();
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [editProduct, setEditProduct] = useState<Product>({} as Product);
   const [
     openedFilteredModal,
     { open: filterModalOpen, close: filterModalClose },
@@ -23,6 +25,11 @@ const AdminPage = () => {
   const [
     openedCreateProductModal,
     { open: openCreateProductModal, close: closeCreateProductModal },
+  ] = useDisclosure(false);
+
+  const [
+    openedEditProductModal,
+    { open: openEditProductModal, close: closeEditProductModal },
   ] = useDisclosure(false);
 
   const [filter, setFilter] = useState({
@@ -38,14 +45,14 @@ const AdminPage = () => {
     if (filter.size !== "") {
       filteredProducts = filteredProducts.filter((product: Product) =>
         product.ProductSizeRelation.some(
-          (size) => size.productSize.size === filter.size
-        )
+          (size) => size.productSize.size === filter.size,
+        ),
       );
     }
 
     if (filter.category !== "") {
       filteredProducts = filteredProducts.filter((product: Product) =>
-        product.categories.some((cat) => cat.name === filter.category)
+        product.categories.some((cat) => cat.name === filter.category),
       );
     }
 
@@ -76,6 +83,10 @@ const AdminPage = () => {
     filterModalClose();
   };
 
+  const handleProductCardClick = (product: Product) => {
+    setEditProduct(product);
+  };
+
   return (
     <AdminLayout>
       <Flex wrap={"wrap"} mah={"90vh"} justify={"center"} gap={"10px"}>
@@ -91,6 +102,13 @@ const AdminPage = () => {
         <CreateProductModal
           opened={openedCreateProductModal}
           close={closeCreateProductModal}
+          refetchProducts={refetchProducts}
+        />
+
+        <EditProductModal
+          product={editProduct}
+          opened={openedEditProductModal}
+          close={closeEditProductModal}
           refetchProducts={refetchProducts}
         />
 
@@ -171,7 +189,16 @@ const AdminPage = () => {
         >
           {loadingProducts && <Loader color="blue.6" />}
           {filteredProducts?.map((product: Product) => {
-            return <ProductCard key={product.id} product={product} />;
+            return (
+              <ProductCard
+                onClick={() => {
+                  handleProductCardClick(product);
+                  openEditProductModal();
+                }}
+                key={product.id}
+                product={product}
+              />
+            );
           })}
         </Flex>
       </Flex>
