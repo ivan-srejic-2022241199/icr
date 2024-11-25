@@ -6,10 +6,9 @@ import styles from "./ProductCard.styles";
 
 interface ProductComponentProps {
   product: Product;
-  onClick: () => void;
 }
 
-const ProductCard: React.FC<ProductComponentProps> = ({ product, onClick }) => {
+const ProductCard: React.FC<ProductComponentProps> = ({ product }) => {
   const { hovered, ref } = useHover();
 
   const price = parseFloat(product.price);
@@ -30,7 +29,7 @@ const ProductCard: React.FC<ProductComponentProps> = ({ product, onClick }) => {
       p={"12px"}
       gap={"32px"}
       bg={hovered ? "gray.0" : "white"}
-      onClick={onClick}
+      onClick={() => alert("Lele")}
     >
       <Image
         width={100}
