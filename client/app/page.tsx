@@ -1,66 +1,65 @@
 import { Button, Flex, Text } from "@mantine/core";
 import Header from "./components/header/Header";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <Flex h={"100vh"} direction={"column"}>
+    <Flex w={"100%"} h={"100vh"} direction={"column"} c={"blue.6"}>
       <Header />
-      <Flex
-        w={"100%"}
-        h={"100%"}
-        flex={1}
-        style={{
-          backgroundImage:
-            "url(https://images.unsplash.com/photo-1483181957632-8bda974cbc91?q=80&w=2370&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
-          backgroundSize: "cover", // Cover the entire Flex area
-          backgroundPosition: "center", // Center the image
-          backgroundRepeat: "no-repeat", // Prevent the image from repeating
-          opacity: "0.9",
-        }}
-        justify={"center"}
-        align={"center"}
-      >
-        <Flex
-          direction={"column"}
-          align={"center"}
-          gap={"20px"}
-          w={"100%"}
-          h={"100%"}
-          flex={1}
-          bg="rgba(0, 0, 0, 0.6)"
-          p={"60px"}
-          pt={"300px"}
-          justify={"center"}
-        >
-          <Text
-            style={{ fontSize: "42px" }}
-            fw={900}
-            variant="gradient"
-            gradient={{ from: "yellow", to: "gold", deg: 90 }}
+      <Flex w="100%" h={"100%"} justify={"center"}>
+        <Flex w={"80%"} h={"100%"} wrap={"wrap"}>
+          <Flex
+            w={"65%"}
+            align={"flex-start"}
+            // justify={"flex-start"}
+            direction={"column"}
+            pt={"240px"}
           >
-            Elevate Your Style
-          </Text>
-          <Text
-            style={{ fontSize: "42px" }}
-            fw={900}
-            variant="gradient"
-            gradient={{ from: "yellow", to: "gold", deg: 90 }}
-          >
-            Discover the Perfect Outfit Today!
-          </Text>
-          <Link href={"/store"}>
-            <Button
-              mt={"25px"}
-              w={"250px"}
-              size="xl"
-              color="gold"
-              variant="outline"
-              gradient={{ from: "black", to: "gold", deg: 45 }}
-            >
-              SHOP NOW
-            </Button>
-          </Link>
+            <Flex direction={"column"}>
+              <Text size={"86px"}>Discover and Find</Text>
+              <Text size={"86px"}> Your Own</Text>
+              <Text size={"86px"}>Fashion!</Text>
+            </Flex>
+
+            <Flex direction={"column"} mt={"24px"}>
+              <Text c={"blue.5"} size={"24px"}>
+                Explore our curated collection of stylish
+              </Text>
+              <Text c={"blue.5"} size={"24px"}>
+                clothing and accessories tailored to your
+              </Text>
+              <Text c={"blue.5"} size={"24px"}>
+                unique taste.
+              </Text>
+            </Flex>
+            <Link href="/store" passHref>
+              <Button w={"256px"} h={"74px"} size={"2xl"} mt={"54px"}>
+                <Text size={"20px"}>SHOP NOW</Text>
+              </Button>
+            </Link>
+          </Flex>
+          <Flex w={"250px"} justify={"center"} mt={"120px"}>
+            <Flex>
+              <Image
+                src={"/assets/tempProducts/dots.svg"}
+                alt={"Dots"}
+                width={"950"}
+                height={"850"}
+              />
+            </Flex>
+            <Flex pos={"absolute"}>
+              <Image
+                alt={"Landing page girl"}
+                src={`/assets/tempProducts/landing.png`}
+                height={"750"}
+                width={"650"}
+                style={{
+                  borderRadius: "10px",
+                }}
+              ></Image>
+            </Flex>
+          </Flex>
         </Flex>
       </Flex>
     </Flex>

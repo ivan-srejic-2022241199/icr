@@ -1,8 +1,8 @@
 import React from "react";
-import Header from "@/app/components/header/Header";
 import { Box, Flex } from "@mantine/core";
 import styles from "./AdminLayout.styles";
 import Sidebar from "../components/Sidebar/Sidebar";
+import AdminHeader from "@/app/admin/components/AdminHeader/AdminHeader";
 
 type AdminLayoutProps = {
   children: React.ReactNode;
@@ -18,7 +18,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       bg={"gray.1"}
       align={"center"}
     >
-      <Header />
+      <AdminHeader />
       <Flex flex={1} gap={"10px"} px="12px" pb={"12px"} w={"80%"}>
         <Sidebar />
         <Box style={{ ...styles.content }}>{children}</Box>

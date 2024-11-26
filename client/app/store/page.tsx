@@ -4,14 +4,17 @@ import Header from "../components/header/Header";
 
 const StorePage = () => {
   return (
-    <Flex h={"100vh"} direction={"column"} w={"100%"}>
+    <Flex w={"100%"} h={"100vh"} direction={"column"}>
       <Header />
-      <Flex flex={1}>
-        {/* Sidebar */}
-        <Flex w={"300px"} h={"100%"} bg={"black"}>
-          sdadsa
+      <Flex w={"100%"} h={"100vh"} justify={"center"}>
+        <Flex h={"100%"} w={"80%"}>
+          <Flex w={"25%"} h={"100%"} bg={"black"}>
+            sdadsa
+          </Flex>
+          <Flex w={"75%"} h={"100%"} bg={"red"}>
+            sadsdadsadsadsa
+          </Flex>
         </Flex>
-        <Flex flex={1} bg={"red"}></Flex>
       </Flex>
     </Flex>
   );
