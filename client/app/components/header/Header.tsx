@@ -30,7 +30,7 @@ const Header = () => {
             width={140}
             height={90}
             alt="Logo"
-            onClick={() => router.push("/")}
+            onClick={() => (window.location.href = "/")}
           />
           <Flex align={"center"}>
             {user?.role === "ADMIN" && (

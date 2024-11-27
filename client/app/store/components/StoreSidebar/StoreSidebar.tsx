@@ -112,7 +112,7 @@ const StoreSidebar = ({ setFilters }) => {
               const isSelected = selectedCategories.has(category.id);
               return (
                 <Button
-                  w={"130px"}
+                  w={"fit-content"}
                   key={category.id}
                   variant={isSelected ? "filled" : "outline"}
                   color={"blue.6"}

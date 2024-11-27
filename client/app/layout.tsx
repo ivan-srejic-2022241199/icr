@@ -1,6 +1,7 @@
 // Import styles of packages that you've installed.
 // All packages except `@mantine/hooks` require styles imports
 import "@mantine/core/styles.css";
+import { Toaster } from "react-hot-toast";
 
 import { ColorSchemeScript, MantineProvider, createTheme } from "@mantine/core";
 import { AuthProvider } from "./context/AuthContext";
@@ -41,7 +42,10 @@ export default function RootLayout({
       <body>
         <ReactQueryProvider>
           <AuthProvider>
-            <MantineProvider theme={theme}>{children}</MantineProvider>
+            <MantineProvider theme={theme}>
+              <Toaster position={"top-right"} />
+              {children}
+            </MantineProvider>
           </AuthProvider>
         </ReactQueryProvider>
       </body>

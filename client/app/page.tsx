@@ -33,7 +33,7 @@ export default function Home() {
                 unique taste.
               </Text>
             </Flex>
-            <Link href="/store" passHref>
+            <Link href="/store">
               <Button w={"256px"} h={"74px"} size={"2xl"} mt={"54px"}>
                 <Text size={"20px"}>SHOP NOW</Text>
               </Button>

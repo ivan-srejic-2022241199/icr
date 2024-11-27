@@ -2,15 +2,19 @@
 "use client";
 import { Flex, Loader } from "@mantine/core";
 import Header from "../components/header/Header";
-import StoreSidebar from "@/app/store/StoreSidebar/StoreSidebar";
-import StoreContent from "@/app/store/StoreContent/StoreContent";
+import StoreSidebar from "@/app/store/components/StoreSidebar/StoreSidebar";
+import StoreContent from "@/app/store/components/StoreContent/StoreContent";
 import useProducts from "@/app/hooks/useProducts";
 import { useEffect, useState } from "react";
 import { Product } from "@/app/types/product";
 
 const StorePage = () => {
   const { products, loadingProducts } = useProducts();
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>();
+  const [filteredProducts, setFilteredProducts] = useState<
+    Product[] | undefined
+  >(products);
+
+  console.log("Ovo", filteredProducts);
   const [filters, setFilters] = useState({
     price: [0, 400],
     sizes: [0],
@@ -57,11 +61,10 @@ const StorePage = () => {
     setFilteredProducts(filtered); // Update the filtered products
   }, [filters]);
 
-  if (loadingProducts && !filteredProducts) {
+  if (loadingProducts && filteredProducts === undefined) {
     return <Loader />;
   }
 
-  console.log("Filteri ovde", filters);
   return (
     <Flex w={"100%"} h={"100vh"} direction={"column"}>
       <Header />
@@ -72,8 +75,11 @@ const StorePage = () => {
             <StoreSidebar setFilters={setFilters} />
           </Flex>
           {/*  Main content*/}
-          <Flex w={"100%"} h={"100%"}>
-            <StoreContent products={filteredProducts} />
+          <Flex w={"100%"}>
+            <StoreContent
+              loadingProducts={loadingProducts}
+              products={filteredProducts}
+            />
           </Flex>
         </Flex>
       </Flex>
