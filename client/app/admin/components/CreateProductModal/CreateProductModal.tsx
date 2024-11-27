@@ -283,8 +283,8 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
                           style={{
                             borderRadius: "0 10px 10px 0",
                             display: "flex",
-                            justifyContent: "center", // Center content horizontally
-                            alignItems: "center", // Center content vertically
+                            justifyContent: "center",
+                            alignItems: "center",
                           }}
                           color="blue.5"
                         >
@@ -395,8 +395,8 @@ const CreateProductModal: React.FC<CreateProductModalProps> = ({
                         w={"200px"}
                         checkIconPosition="right"
                         data={sizes.map((size: ProductSize) => ({
-                          value: size.id.toString(), // Use size.id as the value
-                          label: size.size, // Display size.size as the label
+                          value: size.id.toString(),
+                          label: size.size,
                         }))}
                         onChange={handleSizeSelect}
                       />

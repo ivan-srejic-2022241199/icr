@@ -17,7 +17,7 @@ const Header = () => {
 
   const [cartCount, setCartCount] = useState(0);
   const [products, setProducts] = useState([]);
-  const [isCartVisible, setIsCartVisible] = useState(false); // State to control visibility of cart
+  const [isCartVisible, setIsCartVisible] = useState(false);
 
   const handleLogout = async () => {
     await axios.post("http://localhost:3001/logout", null, {
@@ -28,14 +28,13 @@ const Header = () => {
   };
 
   useEffect(() => {
-    // Get cart from localStorage and update the count
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
     setCartCount(cart.length);
     setProducts(cart);
   }, []);
 
   const toggleCartVisibility = () => {
-    setIsCartVisible(!isCartVisible); // Toggle cart visibility
+    setIsCartVisible(!isCartVisible);
   };
 
   return (
@@ -99,7 +98,6 @@ const Header = () => {
         </Flex>
       </Flex>
 
-      {/* Cart Modal/Popup */}
       {isCartVisible && (
         <Flex
           direction={"column"}

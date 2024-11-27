@@ -15,8 +15,6 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
   const [size, setSize] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const router = useRouter(); // Router hook for navigation
-
   const price = parseFloat(product?.price);
   const discount = parseFloat(product?.discount);
   const discountedPrice = price - (price * discount) / 100;
@@ -43,7 +41,6 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
     fetchProduct();
   }, [id]);
 
-  // Add product to the cart
   const addToCart = () => {
     if (!size) {
       alert("Please select a size");
@@ -58,19 +55,15 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
       image: product.cover_image,
     };
 
-    // Get existing cart from localStorage
     const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-    // Check if the product is already in the cart
     const existingProductIndex = existingCart.findIndex(
       (item: any) => item.id === cartItem.id && item.size === cartItem.size,
     );
 
     if (existingProductIndex !== -1) {
-      // If the product already exists with the same size, just return
       alert("This product with the selected size is already in the cart.");
     } else {
-      // Add the new product to the cart
       existingCart.push(cartItem);
       localStorage.setItem("cart", JSON.stringify(existingCart));
       toast.success("Product added to cart!");
@@ -78,7 +71,6 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
     }
   };
 
-  // Show loader while data is being fetched
   if (loading) {
     return <Loader />;
   }
@@ -146,11 +138,9 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
                     }
                     color={"blue.6"}
                     onClick={() => {
-                      // If the clicked size is already selected, remove it (toggle it off)
                       if (size === productSize.productSize.id) {
                         setSize(null);
                       } else {
-                        // If a different size is clicked, set the new size
                         setSize(productSize.productSize.id);
                       }
                     }}
