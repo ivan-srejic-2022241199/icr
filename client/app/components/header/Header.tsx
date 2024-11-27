@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Button, Flex, Text } from "@mantine/core";
 import styles from "./Header.styles";
@@ -8,10 +9,15 @@ import { IoBagOutline } from "react-icons/io5";
 import { useAuth } from "@/app/context/AuthContext";
 import axios from "axios";
 import { RiAdminFill } from "react-icons/ri";
+import { useEffect, useState } from "react";
 
 const Header = () => {
   const router = useRouter();
   const { user, setUser } = useAuth();
+
+  const [cartCount, setCartCount] = useState(0);
+  const [products, setProducts] = useState([]);
+  const [isCartVisible, setIsCartVisible] = useState(false); // State to control visibility of cart
 
   const handleLogout = async () => {
     await axios.post("http://localhost:3001/logout", null, {
@@ -19,6 +25,17 @@ const Header = () => {
     });
     setUser(null);
     router.push("/");
+  };
+
+  useEffect(() => {
+    // Get cart from localStorage and update the count
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    setCartCount(cart.length);
+    setProducts(cart);
+  }, []);
+
+  const toggleCartVisibility = () => {
+    setIsCartVisible(!isCartVisible); // Toggle cart visibility
   };
 
   return (
@@ -39,7 +56,12 @@ const Header = () => {
               </Button>
             )}
 
-            <Button variant={"white"} w={"fit-content"} mr={"18px"}>
+            <Button
+              variant={"white"}
+              w={"fit-content"}
+              mr={"18px"}
+              onClick={toggleCartVisibility}
+            >
               <IoBagOutline size={"24"} color={"228be6"} />
               <Flex
                 style={{ borderRadius: "100%", marginLeft: "-8px" }}
@@ -51,7 +73,7 @@ const Header = () => {
                 p={"8px"}
               >
                 <Text c={"white"} size={"xs"}>
-                  1
+                  {cartCount}
                 </Text>
               </Flex>
             </Button>
@@ -76,6 +98,45 @@ const Header = () => {
           </Flex>
         </Flex>
       </Flex>
+
+      {/* Cart Modal/Popup */}
+      {isCartVisible && (
+        <Flex
+          direction={"column"}
+          style={{
+            position: "absolute",
+            top: "60px",
+            right: "10px",
+            backgroundColor: "white",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            padding: "16px",
+            borderRadius: "8px",
+            zIndex: 100,
+            width: "300px",
+            maxHeight: "400px",
+            overflowY: "auto",
+          }}
+        >
+          <h3>Cart:</h3>
+          {products.length > 0 ? (
+            <Flex style={{ height: "fit-content" }}>
+              <ul>
+                {products?.map((product: any, index) => (
+                  <li key={index}>
+                    <Text>{product.name}</Text>
+                    <Text>{product.price}</Text>
+                  </li>
+                ))}
+              </ul>
+            </Flex>
+          ) : (
+            <Text>No products in your cart.</Text>
+          )}
+          <Button fullWidth onClick={() => router.push("/cart")}>
+            Go to Cart
+          </Button>
+        </Flex>
+      )}
     </header>
   );
 };

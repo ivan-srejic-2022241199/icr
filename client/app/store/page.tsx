@@ -7,6 +7,7 @@ import StoreContent from "@/app/store/components/StoreContent/StoreContent";
 import useProducts from "@/app/hooks/useProducts";
 import { useEffect, useState } from "react";
 import { Product } from "@/app/types/product";
+import Chatbot from "@/app/components/chatbot/Chatbot";
 
 const StorePage = () => {
   const { products, loadingProducts } = useProducts();
@@ -28,9 +29,9 @@ const StorePage = () => {
   }, [products]);
 
   useEffect(() => {
-    if (!products) return; // Ensure products exist before filtering
+    if (!products) return;
 
-    let filtered = products; // Start with all products
+    let filtered = products;
 
     // Filter by categories
     if (filters.categories.length > 0) {
@@ -68,6 +69,7 @@ const StorePage = () => {
   return (
     <Flex w={"100%"} h={"100vh"} direction={"column"}>
       <Header />
+      <Chatbot products={products} />
       <Flex w={"100%"} h={"100vh"} justify={"center"}>
         <Flex h={"100%"} w={"80%"}>
           {/*  Sidebar*/}
