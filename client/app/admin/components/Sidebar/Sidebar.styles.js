@@ -1,5 +1,5 @@
 const sidebar = {
-  width: "10%",
+  width: "fit-content",
   height: "100%",
   backgroundColor: "white",
   borderRadius: "10px",

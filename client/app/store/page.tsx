@@ -15,7 +15,6 @@ const StorePage = () => {
     Product[] | undefined
   >(products);
 
-  console.log("Ovo", filteredProducts);
   const [filters, setFilters] = useState({
     price: [0, 400],
     sizes: [0],

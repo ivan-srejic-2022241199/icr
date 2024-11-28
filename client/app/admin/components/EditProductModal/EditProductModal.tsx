@@ -37,8 +37,6 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
   const [coverImage, setCoverImage] = useState(product.cover_image);
   const [images, setImages] = useState(product.images);
 
-  console.log(images);
-
   const {
     sizes,
     refetchSizes,

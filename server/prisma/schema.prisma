@@ -97,18 +97,15 @@ model ProductSizeRelation {
 }
 
 model OrderItem {
-  id                  Int          @id @default(autoincrement())
-  order               Orders       @relation(fields: [order_id], references: [id], onDelete: Cascade)
-  order_id            Int
-  product             Product      @relation(fields: [product_id], references: [id], onDelete: Cascade)
-  product_id          Int
-  product_name        String
-  product_price       Decimal
-  product_discount    Decimal
-  product_cover_image String
-  size                ProductSizes @relation(fields: [size_id], references: [id], onDelete: Cascade)
-  size_id             Int
-  quantity            Int
+  id            Int          @id @default(autoincrement())
+  order         Orders       @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  order_id      Int
+  product       Product      @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  product_id    Int
+  product_price Decimal
+  size          ProductSizes @relation(fields: [size_id], references: [id], onDelete: Cascade)
+  size_id       Int
+  quantity      Int
 }
 
 model Orders {

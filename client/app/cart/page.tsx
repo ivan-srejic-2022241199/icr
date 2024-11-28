@@ -4,11 +4,17 @@ import { Flex, Loader, Text, Image, Button } from "@mantine/core";
 import useProducts from "@/app/hooks/useProducts";
 import { useEffect, useState } from "react";
 import Header from "@/app/components/header/Header";
+import { useAuth } from "@/app/context/AuthContext";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 const CartPage = () => {
   const { products, loadingProducts } = useProducts();
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const { user } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -41,6 +47,39 @@ const CartPage = () => {
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
     const updatedCart = cart.filter((cartItem: any) => cartItem.id !== id);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
+
+  const order = async () => {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    const orderItems = cart.map((item: any) => ({
+      product_id: item.id,
+      product_price: parseFloat(item.price),
+      size_id: item.size,
+      quantity: 1,
+    }));
+
+    const orderData = {
+      user_id: user?.id,
+      order_status: "PENDING",
+      order_items: orderItems,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/order",
+        orderData,
+        {
+          withCredentials: true,
+        },
+      );
+
+      localStorage.removeItem("cart");
+      toast.success("Order created successfully!");
+      router.push("/");
+    } catch (error) {
+      console.error("Error creating order:", error);
+    }
   };
 
   if (loadingProducts) {
@@ -116,7 +155,7 @@ const CartPage = () => {
             </Text>
           </Flex>
 
-          <Button variant="filled" color="blue" mt={20}>
+          <Button variant="filled" color="blue" mt={20} onClick={() => order()}>
             Place order
           </Button>
         </Flex>

@@ -11,7 +11,7 @@ type AdminLayoutProps = {
 const AdminLayout = ({ children }: AdminLayoutProps) => {
   return (
     <Flex
-      h={"100vh"}
+      h={"100%"}
       direction={"column"}
       flex={1}
       w={"100%"}

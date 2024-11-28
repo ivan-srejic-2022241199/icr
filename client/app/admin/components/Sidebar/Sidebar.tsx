@@ -52,7 +52,7 @@ const Sidebar = () => {
         );
       })}
 
-      <Button color="blue.5" mb="25px" mt={"auto"} onClick={handleLogout}>
+      <Button color="blue.5" mb="25px" mt={"120px"} onClick={handleLogout}>
         <Flex gap={"10px"}>
           <Text>Logout</Text>
           <IoLogOut size={"1.5rem"} />
