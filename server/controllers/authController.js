@@ -161,6 +161,34 @@ const register = async (req, res) => {
     });
   }
 };
+
+export const updateUserProfile = async (req, res) => {
+  const { first_name, last_name, email, phone_number, city, postal_code, address } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: "Email is required to update profile" });
+  }
+
+  try {
+    const updatedUser = await prisma.user.update({
+      where: { email },
+      data: {
+        first_name,
+        last_name,
+        phone_number,
+        city,
+        postal_code,
+        address,
+      },
+    });
+
+    return res.status(200).json({ message: "Profile updated successfully", user: updatedUser });
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+    return res.status(500).json({ error: "An error occurred while updating the profile" });
+  }
+};
+
 const getUser = async (req, res) => {
   const token = req.cookies.token;
   if (!token) {
@@ -199,4 +227,4 @@ const getUser = async (req, res) => {
   }
 };
 
-module.exports = { login, register, logout, getUser };
+module.exports = { login, register, logout, getUser, updateUserProfile };

@@ -11,4 +11,6 @@ router.post("/logout", AuthController.logout);
 
 router.get("/user", AuthController.getUser);
 
+router.put('/update-user',AuthController.updateUserProfile)
+
 module.exports = router;

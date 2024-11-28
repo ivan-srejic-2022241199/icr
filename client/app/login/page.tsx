@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useForm } from "@mantine/form";
 import {
@@ -6,10 +7,12 @@ import {
   Button,
   Container,
   Title,
+  Anchor,
 } from "@mantine/core";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
+import { toast } from "react-hot-toast";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -38,7 +41,8 @@ const LoginPage = () => {
         setUser(response.data.userInfo);
         router.push("/");
       }
-    } catch (err) {
+    } catch (err: any) {
+      toast.error(err.response.data.message);
       console.error(err);
     }
   };
@@ -61,6 +65,12 @@ const LoginPage = () => {
           Log in
         </Button>
       </form>
+      <div style={{ marginTop: "1rem", textAlign: "center" }}>
+        Don&#39;t have an account?{" "}
+        <Anchor onClick={() => router.push("/register")} component="button">
+          Register
+        </Anchor>
+      </div>
     </Container>
   );
 };

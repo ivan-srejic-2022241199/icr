@@ -10,6 +10,7 @@ import { useAuth } from "@/app/context/AuthContext";
 import axios from "axios";
 import { RiAdminFill } from "react-icons/ri";
 import { useEffect, useState } from "react";
+import { CgProfile } from "react-icons/cg";
 
 const Header = () => {
   const router = useRouter();
@@ -23,6 +24,7 @@ const Header = () => {
     await axios.post("http://localhost:3001/logout", null, {
       withCredentials: true,
     });
+    localStorage.removeItem("cart");
     setUser(null);
     router.push("/");
   };
@@ -52,6 +54,11 @@ const Header = () => {
             {user?.role === "ADMIN" && (
               <Button variant={"white"} onClick={() => router.push("/admin")}>
                 <RiAdminFill color={"228be6"} size={"24"} />
+              </Button>
+            )}
+            {user?.role === "CUSTOMER" && (
+              <Button variant={"white"} onClick={() => router.push("/profile")}>
+                <CgProfile color={"228be6"} size={"24"} />
               </Button>
             )}
 
