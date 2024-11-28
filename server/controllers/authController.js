@@ -162,7 +162,7 @@ const register = async (req, res) => {
   }
 };
 
-export const updateUserProfile = async (req, res) => {
+const updateUserProfile = async (req, res) => {
   const { first_name, last_name, email, phone_number, city, postal_code, address } = req.body;
 
   if (!email) {

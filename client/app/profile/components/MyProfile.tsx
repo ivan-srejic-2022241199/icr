@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Flex, TextInput, Button, Container, Title, Box } from "@mantine/core";
 import { useForm } from "@mantine/form";
@@ -23,22 +24,17 @@ const MyProfile = () => {
 
     validate: {
       first_name: (value) =>
-        value.trim().length < 2
-          ? "First name must have at least 2 characters"
-          : null,
+        value.length < 2 ? "First name must have at least 2 characters" : null,
       last_name: (value) =>
-        value.trim().length < 2
-          ? "Last name must have at least 2 characters"
-          : null,
+        value.length < 2 ? "Last name must have at least 2 characters" : null,
       email: (value) =>
         /^\S+@\S+$/.test(value) ? null : "Invalid email address",
       phone_number: (value) =>
-        value.trim().length < 9 ? "Phone number must be valid" : null,
+        value.length < 9 ? "Phone number must be valid" : null,
       city: (value) => (value.trim().length === 0 ? "City is required" : null),
       postal_code: (value) =>
-        value.trim().length < 5 ? "Postal code must be valid" : null,
-      address: (value) =>
-        value.trim().length === 0 ? "Address is required" : null,
+        value.length < 5 ? "Postal code must be valid" : null,
+      address: (value) => (value.length === 0 ? "Address is required" : null),
     },
   });
 
@@ -67,6 +63,7 @@ const MyProfile = () => {
       );
 
       if (response.data.user) {
+        toast.success("Successfully updated user");
         setUser(response.data.user);
       }
     } catch (err: any) {
